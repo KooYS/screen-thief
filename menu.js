@@ -75,7 +75,7 @@ else {
     function cancel() {
       clearTimeout(timer);
       host?.remove();
-      host = origin = null;
+      host = origin = globalThis.stMenuBox = null;
       active = -1;
       clicked = false;
     }
@@ -109,6 +109,7 @@ else {
       chrome.storage.local.get(cfg, (c) => {
         cfg = c;
         origin = { x, y };
+        globalThis.stMenuBox = { x, y, r: R }; // lets spotlight.js place its HUD beside the menu
         host = document.createElement('div');
         host.style.cssText = `position:fixed;left:${x - R}px;top:${y - R}px;width:${2 * R}px;height:${2 * R}px;z-index:2147483647;pointer-events:none;`;
         const root = host.attachShadow({ mode: 'closed' });
