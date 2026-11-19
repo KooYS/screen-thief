@@ -3,8 +3,7 @@
 (() => {
   const MIN = 60;
   const MAX = 600;
-  const BLUR = 7; // px
-  let cfg = { spotlight: false, radius: 160 };
+  let cfg = { spotlight: false, radius: 160, blur: 16 };
   let x = innerWidth / 2;
   let y = innerHeight / 2;
   let veil = null;
@@ -20,14 +19,20 @@
   addEventListener('mousemove', (e) => ((x = e.clientX), (y = e.clientY), paint()), { passive: true });
   document.documentElement.addEventListener('mouseleave', () => ((x = -9999), paint()));
 
-  // Alt + wheel resizes the clear area.
+  // Alt + wheel resizes the clear area; Alt + Shift + wheel changes blur strength.
   addEventListener(
     'wheel',
     (e) => {
       if (!veil || !e.altKey) return;
       e.preventDefault();
-      const radius = Math.min(MAX, Math.max(MIN, cfg.radius - Math.sign(e.deltaY) * 20));
-      if (radius !== cfg.radius) chrome.storage.local.set({ radius });
+      const dir = -Math.sign(e.deltaY || e.deltaX); // macOS turns Shift+wheel into deltaX
+      if (e.shiftKey) {
+        const blur = Math.min(40, Math.max(2, cfg.blur + dir * 2));
+        if (blur !== cfg.blur) chrome.storage.local.set({ blur });
+      } else {
+        const radius = Math.min(MAX, Math.max(MIN, cfg.radius + dir * 20));
+        if (radius !== cfg.radius) chrome.storage.local.set({ radius });
+      }
     },
     { passive: false },
   );
@@ -36,11 +41,12 @@
     if (!cfg.spotlight) return veil?.remove(), (veil = null);
     if (!veil) {
       veil = document.createElement('div');
-      veil.style.cssText =
-        `position:fixed;inset:0;z-index:2147483647;pointer-events:none;` +
-        `backdrop-filter:blur(${BLUR}px);-webkit-backdrop-filter:blur(${BLUR}px);`;
+      veil.style.cssText = 'position:fixed;inset:0;z-index:2147483647;pointer-events:none;';
       document.documentElement.append(veil);
     }
+    // Grayscale + low contrast so logos and photos lose their colour and shape too.
+    veil.style.backdropFilter = veil.style.webkitBackdropFilter =
+      `blur(${cfg.blur}px) grayscale(1) contrast(0.45) brightness(1.15)`;
     paint();
   }
 

@@ -13,7 +13,7 @@ Slack 탭이 없으면 옆 탭을 활성화한다. Slack 탭이 활성 상태일
 
 ## 스포트라이트 모드
 
-`⌥ + B`로 켜고 끔. 페이지 전체에 `backdrop-filter: blur(7px)` 막을 씌우고, 커서 위치에 가로 1.8:1 타원 마스크로 구멍을 낸다. 막은 `pointer-events: none`이라 클릭·스크롤이 그대로 통과한다. `⌥` + 휠로 반지름 60~600px 조절. 켜짐 여부와 반지름은 `chrome.storage.local`에 저장되어 모든 탭에 동시에 적용된다.
+`⌥ + B`로 켜고 끔. 페이지 전체에 `backdrop-filter: blur(16px) grayscale(1) contrast(0.45)` 막을 씌우고, 커서 위치에 가로 1.8:1 타원 마스크로 구멍을 낸다. 막은 `pointer-events: none`이라 클릭·스크롤이 그대로 통과한다. `⌥` + 휠로 반지름 60~600px, `⌥ + ⇧` + 휠로 흐림 2~40px 조절. 켜짐 여부와 반지름은 `chrome.storage.local`에 저장되어 모든 탭에 동시에 적용된다.
 
 ## 결정과 이유
 
