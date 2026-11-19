@@ -1,46 +1,28 @@
 const SLACK = 'https://app.slack.com/*';
 
-chrome.runtime.onMessage.addListener((msg, sender) => {
-  if (msg.type === 'cloak') cloak(msg.payload, sender.tab);
-  if (msg.type === 'back') back();
-});
+chrome.commands.onCommand.addListener((cmd) => cmd === 'toggle' && toggle());
 
-async function cloak(payload, from) {
-  await chrome.storage.session.set({ fromTabId: from.id });
-  let [slack] = await chrome.tabs.query({ url: SLACK });
-  if (!slack) {
-    slack = await chrome.tabs.create({ url: 'https://app.slack.com/client', index: from.index + 1 });
-    await loaded(slack.id);
+async function toggle() {
+  const { hidden = [] } = await chrome.storage.session.get('hidden');
+  if (hidden.length) {
+    for (const id of hidden) await chrome.sessions.restore(id).catch(() => {});
+    return chrome.storage.session.set({ hidden: [] });
   }
-  await chrome.tabs.update(slack.id, { active: true });
-  await chrome.windows.update(slack.windowId, { focused: true });
-  await send(slack.id, payload);
-}
 
-async function send(tabId, payload) {
-  const msg = { type: 'show', payload };
-  try {
-    await chrome.tabs.sendMessage(tabId, msg);
-  } catch {
-    // Slack tab was open before the extension loaded: inject once, then retry.
-    await chrome.scripting.insertCSS({ target: { tabId }, files: ['slack.css'] });
-    await chrome.scripting.executeScript({ target: { tabId }, files: ['defaults.js', 'words.js', 'slack.js'] });
-    await chrome.tabs.sendMessage(tabId, msg);
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  const [slack] = await chrome.tabs.query({ url: SLACK });
+  if (!tab || tab.id === slack?.id) return;
+
+  if (slack) {
+    await chrome.tabs.update(slack.id, { active: true });
+    await chrome.windows.update(slack.windowId, { focused: true });
   }
+  // Chrome can't hide a tab, so close it and keep its session id to restore later.
+  // ponytail: unsaved form input is lost on restore; history and scroll come back.
+  await chrome.tabs.remove(tab.id);
+  const [closed] = await chrome.sessions.getRecentlyClosed({ maxResults: 1 });
+  const id = (closed?.tab || closed?.window)?.sessionId;
+  if (id) await chrome.storage.session.set({ hidden: [id] });
 }
 
-function loaded(tabId) {
-  return new Promise((resolve) => {
-    chrome.tabs.onUpdated.addListener(function on(id, info) {
-      if (id === tabId && info.status === 'complete') {
-        chrome.tabs.onUpdated.removeListener(on);
-        resolve();
-      }
-    });
-  });
-}
-
-async function back() {
-  const { fromTabId } = await chrome.storage.session.get('fromTabId');
-  if (fromTabId) chrome.tabs.update(fromTabId, { active: true }).catch(() => {});
-}
+if (typeof module !== 'undefined') module.exports = { toggle };

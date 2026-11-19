@@ -1,24 +1,14 @@
 {
   "manifest_version": 3,
   "name": "화면 도둑",
-  "version": "0.2.0",
-  "description": "Alt+S moves the current page's text into your real Slack tab.",
-  "permissions": ["storage", "scripting"],
-  "host_permissions": ["https://app.slack.com/*"],
+  "version": "0.3.0",
+  "description": "Alt+S hides the current tab and jumps to Slack; press again to bring it back.",
+  "permissions": ["tabs", "sessions", "storage"],
   "background": { "service_worker": "background.js" },
-  "options_page": "options.html",
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "exclude_matches": ["https://app.slack.com/*"],
-      "js": ["content.js"],
-      "run_at": "document_idle"
-    },
-    {
-      "matches": ["https://app.slack.com/*"],
-      "js": ["defaults.js", "words.js", "slack.js"],
-      "css": ["slack.css"],
-      "run_at": "document_idle"
+  "commands": {
+    "toggle": {
+      "suggested_key": { "default": "Alt+S" },
+      "description": "Hide current tab / bring hidden tab back"
     }
-  ]
+  }
 }
