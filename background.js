@@ -2,7 +2,10 @@ const SLACK = 'https://app.slack.com/*';
 // Shown on the collapsed group chip; pick something that reads like routine work.
 const GROUP_TITLE = 'PR 리뷰';
 
-chrome.commands.onCommand.addListener((cmd) => cmd === 'toggle' && toggle());
+chrome.commands.onCommand.addListener((cmd) => {
+  if (cmd === 'toggle') toggle();
+  if (cmd === 'spotlight') chrome.storage.local.get({ spotlight: false }, (v) => chrome.storage.local.set({ spotlight: !v.spotlight }));
+});
 
 async function toggle() {
   const { hidden } = await chrome.storage.session.get('hidden');

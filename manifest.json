@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "화면 도둑",
-  "version": "0.4.0",
-  "description": "Alt+S tucks the current tab into a collapsed group and jumps to Slack; press again to bring it back.",
+  "version": "0.5.0",
+  "description": "Alt+S hides the current tab and jumps to Slack. Alt+B blurs the page except around the cursor.",
   "permissions": [
     "tabs",
     "tabGroups",
@@ -17,6 +17,12 @@
         "default": "Alt+S"
       },
       "description": "Hide current tab / bring hidden tab back"
+    },
+    "spotlight": {
+      "suggested_key": {
+        "default": "Alt+B"
+      },
+      "description": "Blur page except around the cursor"
     }
   },
   "icons": {
@@ -33,5 +39,16 @@
       "128": "icons/icon128.png"
     },
     "default_title": "화면 도둑 (Alt+S)"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "spotlight.js"
+      ],
+      "run_at": "document_start"
+    }
+  ]
 }
