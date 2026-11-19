@@ -1,4 +1,6 @@
 const SLACK = 'https://app.slack.com/*';
+// Shown on the collapsed group chip; pick something that reads like routine work.
+const GROUP_TITLE = 'PR 리뷰';
 
 chrome.commands.onCommand.addListener((cmd) => cmd === 'toggle' && toggle());
 
@@ -32,7 +34,7 @@ async function toggle() {
   }
 
   const groupId = await chrome.tabs.group({ tabIds: tab.id });
-  await chrome.tabGroups.update(groupId, { title: '', color: 'grey', collapsed: true });
+  await chrome.tabGroups.update(groupId, { title: GROUP_TITLE, color: 'grey', collapsed: true });
   await chrome.storage.session.set({ hidden: tab.id });
 }
 
