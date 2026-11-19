@@ -1,0 +1,30 @@
+#st-overlay {
+  all: initial;
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: flex;
+  background: #fff;
+  color: #1d1c1d;
+  font: 15px/1.47 -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+}
+#st-overlay * { box-sizing: border-box; }
+#st-overlay .st-side { width: 260px; flex: none; background: #3f0e40; color: #cfc3cf; padding: 0 0 16px; overflow: auto; }
+#st-overlay .st-ws { color: #fff; font-weight: 900; font-size: 18px; padding: 14px 16px; border-bottom: 1px solid #5d3a5e; }
+#st-overlay .st-group { padding: 16px 16px 4px; font-size: 14px; }
+#st-overlay .st-ch { padding: 4px 26px; font-size: 15px; }
+#st-overlay .st-ch.on { background: #1164a3; color: #fff; }
+#st-overlay .st-main, #st-overlay .st-thread { display: flex; flex-direction: column; min-width: 0; }
+#st-overlay .st-main { flex: 1; }
+#st-overlay .st-thread { width: 42%; flex: none; border-left: 1px solid #ddd; }
+#st-overlay .st-head { flex: none; padding: 14px 20px; font-weight: 900; font-size: 17px; border-bottom: 1px solid #ddd; }
+#st-overlay .st-msgs { flex: 1; overflow: auto; padding: 8px 0; }
+#st-overlay .st-msg { display: flex; gap: 8px; padding: 8px 20px; }
+#st-overlay .st-msg:hover { background: #f8f8f8; }
+#st-overlay .st-av { width: 36px; height: 36px; flex: none; border-radius: 4px; color: #fff; font-size: 12px; font-weight: 700; display: grid; place-items: center; }
+#st-overlay .st-col { min-width: 0; }
+#st-overlay .st-meta b { font-weight: 900; margin-right: 8px; }
+#st-overlay .st-time { color: #616061; font-size: 12px; }
+#st-overlay .st-title { font-weight: 700; }
+#st-overlay .st-body { white-space: pre-wrap; word-break: break-word; }
+#st-overlay .st-replies { color: #1264a3; font-size: 13px; font-weight: 700; margin-top: 4px; }

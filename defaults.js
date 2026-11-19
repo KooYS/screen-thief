@@ -1,0 +1,10 @@
+const ST_DEFAULTS = {
+  workspace: 'Dev Team',
+  channel: 'fe-dev',
+  channels: 'general, fe-dev, deploy, incident',
+  people: '김민수, 이지은, 박준호',
+  dict: [
+    '연봉=단가', '지원하기=반영 요청', '지원=반영', '채용=배포', '이력서=명세서',
+    '포트폴리오=릴리즈 노트', '면접=리뷰', '합격=머지', '이직=마이그레이션', '구직=QA',
+  ].join('\n'),
+};

@@ -1,0 +1,17 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>화면 도둑 설정</title>
+<style>
+  body { font: 14px -apple-system, sans-serif; max-width: 520px; margin: 32px auto; padding: 0 16px; }
+  label { display: block; margin: 14px 0 4px; font-weight: 600; }
+  input, textarea { width: 100%; padding: 6px; font: inherit; }
+  textarea { height: 200px; }
+</style>
+<label for="workspace">워크스페이스 이름</label><input id="workspace" />
+<label for="channel">현재 채널명</label><input id="channel" />
+<label for="channels">사이드바 채널 (쉼표로 구분)</label><input id="channels" />
+<label for="people">동료 이름 (쉼표로 구분)</label><input id="people" />
+<label for="dict">치환 사전 (한 줄에 원래=바꿀말)</label><textarea id="dict"></textarea>
+<p><button id="save">저장</button> <span id="status" role="status"></span></p>
+<script src="defaults.js"></script>
+<script src="options.js"></script>
