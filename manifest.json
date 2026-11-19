@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "화면 도둑",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Alt+S hides the current tab and jumps to Slack. Alt+A blurs the page except around the cursor.",
   "permissions": [
     "tabs",
@@ -46,7 +46,8 @@
         "<all_urls>"
       ],
       "js": [
-        "spotlight.js"
+        "spotlight.js",
+        "menu.js"
       ],
       "run_at": "document_start"
     }

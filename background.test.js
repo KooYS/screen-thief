@@ -6,6 +6,7 @@ function fakeChrome(tabs) {
   const store = {};
   global.chrome = {
     commands: { onCommand: { addListener() {} } },
+    runtime: { onMessage: { addListener() {} } },
     storage: {
       session: {
         get: async () => ({ ...store }),

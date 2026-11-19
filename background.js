@@ -6,6 +6,8 @@ chrome.commands.onCommand.addListener((cmd) => {
   if (cmd === 'toggle') toggle();
   if (cmd === 'spotlight') chrome.storage.local.get({ spotlight: false }, (v) => chrome.storage.local.set({ spotlight: !v.spotlight }));
 });
+// From the radial menu (menu.js).
+chrome.runtime.onMessage.addListener((msg) => msg.type === 'hide' && toggle());
 
 async function toggle() {
   const { hidden } = await chrome.storage.session.get('hidden');

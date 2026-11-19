@@ -15,6 +15,14 @@ Slack 탭이 없으면 옆 탭을 활성화한다. Slack 탭이 활성 상태일
 
 `⌥ + A`로 켜고 끔. 페이지 전체에 `backdrop-filter: blur(16px) grayscale(1) contrast(0.45)` 막을 씌우고, 커서 위치에 가로 1.8:1 타원 마스크로 구멍을 낸다. 막은 `pointer-events: none`이라 클릭·스크롤이 그대로 통과한다. `⌥` + 휠로 반지름 60~600px, `⌥ + ⇧` + 휠로 흐림 2~40px 조절. 켜짐 여부와 반지름은 `chrome.storage.local`에 저장되어 모든 탭에 동시에 적용된다.
 
+## 원형 메뉴
+
+옵션(Alt) 키만 180ms 이상 누르면 커서 위치에 6칸 원형 메뉴가 뜬다 (위부터 시계방향: 흐리게, 영역＋, 흐림＋, 접기, 흐림－, 영역－).
+- 칸을 가리킨 채 키를 떼면 실행. 가운데(허브)에서 떼면 취소.
+- 키를 누른 채 칸을 클릭하면 즉시 실행되고 메뉴는 유지. 클릭한 뒤 키를 떼면 추가 실행 없이 닫힘.
+- 메뉴가 열린 동안 마우스 이벤트는 페이지로 전달하지 않는다. 옵션과 다른 키를 같이 누르면(특수문자 입력, 다른 단축키) 메뉴를 열지 않는다.
+- 페이지 안 키 감지라서 `chrome.commands` 등록 충돌과 무관하게 동작한다. 단, 페이지에 포커스가 있어야 한다.
+
 ## 결정과 이유
 
 - **진짜 Slack을 그대로 사용**: 가짜 Slack UI나 Slack 위 덮개는 실제 채널명·동료·알림과 어긋나 오히려 눈에 띈다. (v1·v2에서 시도했다가 폐기)
@@ -33,6 +41,8 @@ Slack 탭이 없으면 옆 탭을 활성화한다. Slack 탭이 활성 상태일
 manifest.json        # 권한: tabs, tabGroups, storage. 명령 toggle = Alt+S, spotlight = Alt+A
 background.js        # toggle(): 숨기기 / 복원, spotlight 명령 → storage 토글
 spotlight.js         # content script: 블러 막 + 커서 타원 마스크
+menu.js              # content script: 옵션 길게 누르기 원형 메뉴, sliceAt() 순수 함수
+menu.test.js         # sliceAt 방향 → 칸 매핑
 background.test.js   # node --test, chrome API 목으로 흐름 검증
 ```
 
