@@ -1,0 +1,15 @@
+#st-cover {
+  position: fixed;
+  z-index: 2147483647;
+  overflow: auto;
+  padding: 8px 0;
+  font: 15px/1.47 Slack-Lato, Lato, -apple-system, 'Apple SD Gothic Neo', sans-serif;
+}
+#st-cover .st-msg { display: flex; gap: 8px; padding: 8px 20px; }
+#st-cover .st-msg:hover { background: rgba(127, 127, 127, 0.08); }
+#st-cover .st-av { width: 36px; height: 36px; flex: none; border-radius: 6px; color: #fff; font-size: 12px; font-weight: 700; display: grid; place-items: center; }
+#st-cover .st-col { min-width: 0; }
+#st-cover .st-meta b { font-weight: 900; margin-right: 8px; }
+#st-cover .st-time { opacity: 0.6; font-size: 12px; }
+#st-cover .st-title { font-weight: 700; }
+#st-cover .st-body { white-space: pre-wrap; word-break: break-word; }
