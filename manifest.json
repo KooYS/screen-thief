@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "name": "화면 도둑",
-  "version": "0.3.0",
-  "description": "Alt+S hides the current tab and jumps to Slack; press again to bring it back.",
-  "permissions": ["tabs", "sessions", "storage"],
+  "version": "0.4.0",
+  "description": "Alt+S tucks the current tab into a collapsed group and jumps to Slack; press again to bring it back.",
+  "permissions": ["tabs", "tabGroups", "storage"],
   "background": { "service_worker": "background.js" },
   "commands": {
     "toggle": {
