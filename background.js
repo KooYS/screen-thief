@@ -7,18 +7,31 @@ chrome.commands.onCommand.addListener((cmd) => {
   if (cmd === 'spotlight') chrome.storage.local.get({ spotlight: false }, (v) => chrome.storage.local.set({ spotlight: !v.spotlight }));
 });
 // From the radial menu (menu.js).
-chrome.runtime.onMessage.addListener((msg) => msg.type === 'hide' && toggle());
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.type === 'hide') toggle();
+});
+
+// The stored id goes stale if the user expands the group by hand or closes the tab,
+// so trust it only while that tab is still inside a collapsed group.
+async function stillHidden(id) {
+  try {
+    const tab = await chrome.tabs.get(id);
+    return tab.groupId !== -1 && (await chrome.tabGroups.get(tab.groupId)).collapsed;
+  } catch {
+    return false; // tab closed
+  }
+}
 
 async function toggle() {
   const { hidden } = await chrome.storage.session.get('hidden');
   if (hidden) {
     await chrome.storage.session.remove('hidden');
-    try {
+    if (await stillHidden(hidden)) {
       await chrome.tabs.ungroup(hidden);
       const tab = await chrome.tabs.update(hidden, { active: true });
       await chrome.windows.update(tab.windowId, { focused: true });
-    } catch {} // tab was closed meanwhile
-    return;
+      return;
+    }
   }
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
