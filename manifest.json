@@ -3,12 +3,35 @@
   "name": "화면 도둑",
   "version": "0.4.0",
   "description": "Alt+S tucks the current tab into a collapsed group and jumps to Slack; press again to bring it back.",
-  "permissions": ["tabs", "tabGroups", "storage"],
-  "background": { "service_worker": "background.js" },
+  "permissions": [
+    "tabs",
+    "tabGroups",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "commands": {
     "toggle": {
-      "suggested_key": { "default": "Alt+S" },
+      "suggested_key": {
+        "default": "Alt+S"
+      },
       "description": "Hide current tab / bring hidden tab back"
     }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "화면 도둑 (Alt+S)"
   }
 }
